@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+<!--
+  Steganon — interface icon.
+  A shield with a water level that stops at its boundary: being watertight is
+  not the absence of pressure, it is pressure that does not get through. Drawn
+  on the 16 pixel grid so it stays legible at tray size.
+  Follows the text colour, like every symbolic icon.
+  The shield outline
+  The level: solid below, waved at the surface
+-->
+  <g fill="currentColor">
+    <path d="M8 0.75 1.9 3.1v4.55c0 3.4 2.5 6.45 6.1 7.6 3.6-1.15 6.1-4.2 6.1-7.6V3.1Zm0 1.6 4.6 1.78v3.52c0 2.63-1.86 5.03-4.6 6.05-2.74-1.02-4.6-3.42-4.6-6.05V4.13Z"/>
+    <path d="M3.9 8.35c.62 0 .62.6 1.23.6.62 0 .62-.6 1.24-.6.61 0 .61.6 1.23.6.61 0 .61-.6 1.23-.6.62 0 .62.6 1.24.6.61 0 .61-.6 1.23-.6v.9c0 1.9-1.2 3.65-3.08 4.5l-.02.01-.02-.01C5.1 12.9 3.9 11.15 3.9 9.25Z" opacity=".95"/>
+  </g>
+</svg>

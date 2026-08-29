@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Steganon
+Name[el]=Στεγανό
+Comment=All traffic through the tunnel, or none at all
+Comment[el]=Όλη η κίνηση από το tunnel, ή καθόλου
+Exec=steganon-gui
+Icon=steganon
+Terminal=false
+Categories=Network;Security;
+Keywords=VPN;firewall;kill switch;privacy;
+Keywords[el]=VPN;τείχος;ασφάλεια;ιδιωτικότητα;

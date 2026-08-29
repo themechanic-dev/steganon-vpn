@@ -1,0 +1,19 @@
+[Unit]
+Description=Steganon — firewall (closed by default)
+Documentation=https://github.com/themechanic-dev/steganon-vpn
+# Loaded BEFORE any network interface comes up. That closes the few-second
+# window at boot where services talk to the outside before the tunnel has had
+# a chance to connect.
+DefaultDependencies=no
+Before=network-pre.target
+Wants=network-pre.target
+After=nftables.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/steganon firewall boot
+ExecStop=/usr/local/bin/steganon firewall off
+
+[Install]
+WantedBy=sysinit.target

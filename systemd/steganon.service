@@ -1,0 +1,25 @@
+[Unit]
+Description=Steganon — tunnel and supervisor
+After=network-online.target steganon-firewall.service
+Wants=network-online.target
+Requires=steganon-firewall.service
+
+[Service]
+Type=simple
+# Connecting may need attempts at several locations before it succeeds. The
+# default 90 second limit is not enough, and the failure shows up as an
+# endless restart loop.
+TimeoutStartSec=300
+# The stop signal goes only to the main process; cleaning up the tunnel is
+# done explicitly by "down", in the right order.
+KillMode=mixed
+# "--connect" brings up the firewall and the connection before supervision
+# starts, with no rollback timer: there is nobody here to confirm, and the
+# command itself rolls back if the connection fails.
+ExecStart=/usr/local/bin/steganon watch --connect
+ExecStop=/usr/local/bin/steganon down
+Restart=on-failure
+RestartSec=20
+
+[Install]
+WantedBy=multi-user.target

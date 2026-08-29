@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+build/
+dist/
+*.egg-info/
+
+# Never in the repository: these belong to each user, not to the project.
+credentials
+*.key
+*.ovpn
+profiles/

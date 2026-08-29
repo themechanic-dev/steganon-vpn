@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+<!--
+  Steganon — application icon.
+  The same shape as the symbolic one, in colour: teal for the shield, a deeper
+  tone for the water it holds back.
+  Shield body
+  The water, clipped inside the shield
+  Inner lip: the boundary nothing crosses
+-->
+  <defs>
+    <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1FA8A0"/>
+      <stop offset="1" stop-color="#0E6E6B"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7FE3DC"/>
+      <stop offset="1" stop-color="#2AB3AB"/>
+    </linearGradient>
+    <clipPath id="inside">
+      <path d="M64 20 27 34.3v27.4c0 20.5 15 38.9 37 45.8 22-6.9 37-25.3 37-45.8V34.3Z"/>
+    </clipPath>
+  </defs>
+
+  <path d="M64 8 16 26.6v35.1C16 88 35 111.5 64 120c29-8.5 48-32 48-58.3V26.6Z" fill="url(#shell)"/>
+
+  <g clip-path="url(#inside)">
+    <path d="M20 62c6 0 6 6 12 6s6-6 12-6 6 6 12 6 6-6 12-6 6 6 12 6 6-6 12-6 6 6 12 6v52H20Z" fill="url(#water)" opacity=".9"/>
+  </g>
+
+  <path d="M64 20 27 34.3v27.4c0 20.5 15 38.9 37 45.8 22-6.9 37-25.3 37-45.8V34.3Z"
+        fill="none" stroke="#F2FBFA" stroke-width="4.5" stroke-opacity=".55"/>
+</svg>
