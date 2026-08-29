@@ -84,46 +84,83 @@ powershell -ExecutionPolicy Bypass -File install.ps1
 The tool ships with **no servers, no countries and no provider** built in. You
 add the profiles you have, one at a time, in the order you want them tried.
 
-Look at a profile first if you like — this changes nothing and needs no
-privileges:
+**What to get from your provider.** Look for the OpenVPN configuration files
+for *manual setup* — often called "config files", "OpenVPN certificates" or
+"manual configuration". Download the ones for the countries you want. This is
+not the same as your provider's own app, and not the same as your account
+password.
 
-```bash
-steganon inspect /path/to/profile
+**What a profile looks like.** Providers hand these out in two shapes, and
+both are accepted:
+
+```
+a folder                          a single file
+  greece/                           greece.ovpn      ← everything inline
+    openvpn.ovpn
+    ca.crt
+    client.crt
+    client.key
 ```
 
-Then add it. The path is either a folder holding a `.ovpn` with its
-certificates, or a self-contained `.ovpn` file:
+For the folder shape, point the tool at the `.ovpn` **inside** it — the
+certificates sitting beside it are picked up automatically.
+
+#### With the window
+
+The whole thing is buttons; no terminal after the install.
+
+1. Open Steganon (`steganon-gui`, or from the applications menu).
+2. Press **＋ Add location**, go into your profile's folder and choose the
+   `.ovpn` file.
+3. The location appears in the list with its flag, marked **No credentials
+   yet**.
+4. Press the **🔑** on its row and enter the username and password **for that
+   location**.
+5. Repeat for every country you want.
+
+Use the **▲ ▼** arrows on each row to set which country is tried first. The
+switch on a row turns a location off without deleting it.
+
+#### With the command line
+
+Same thing, if you prefer it or have no desktop:
 
 ```bash
-sudo steganon add /path/to/profile
+steganon inspect /path/to/profile        # read it, change nothing, no root
 ```
 
-Each one you add goes to the end of the priority order, so the first you add
-is the first that will be tried. The name is guessed from the folder or the
-server address; `--name` overrides it, and `--country XX` sets the two-letter
-code used for the flag if the guess was wrong.
+```bash
+sudo steganon add /path/to/profile       # folder, or the .ovpn itself
+```
+
+```bash
+sudo steganon credentials <name>         # that location's own pair
+```
+
+Each location added goes to the end of the priority order, so the first you
+add is the first that will be tried. The name is guessed from the folder or
+the server address; `--name` overrides it, and `--country XX` sets the
+two-letter code used for the flag if the guess was wrong.
 
 ### Credentials, per location
 
 **Every location keeps its own username and password**, beside its own
-certificates:
-
-```bash
-sudo steganon credentials <name>
-```
+certificates.
 
 This is per location rather than per installation because providers do not
 agree. Some issue a single pair for the whole account; others a different pair
 for every server — and with a shared pair, failover to a second country would
 fail at the moment it was needed most. Some profiles authenticate with the
-certificate alone and need no pair at all; `steganon add` says which kind it
-just imported.
+certificate alone and need no pair at all; the tool detects which kind it just
+imported and only asks when there is something to ask for.
 
 Whatever the provider gave you, it is a **separate pair for manual setup**, not
 your account password. That is the most common cause of a failed connection.
-The command asks without echoing to the screen and stores the pair readable
-only by the administrator. It is never passed as a command argument — anything
-on a command line is visible to every user of the machine.
+
+Neither the window nor the command echoes the password to the screen, and the
+pair is stored readable only by the administrator. It is never passed as a
+command argument — anything on a command line is visible to every user of the
+machine.
 
 Removing a location deletes its credentials along with its certificates.
 
