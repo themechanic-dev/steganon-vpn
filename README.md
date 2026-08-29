@@ -6,6 +6,10 @@ A VPN manager for **Linux and Windows** that closes the network when there is
 no protection, instead of leaving it open. Built on the tools every system
 already has — it does not replace them, it orchestrates them.
 
+<p align="center">
+  <img src="docs/window.png" alt="The Steganon window: state, connection details, the priority order of locations, and settings" width="380">
+</p>
+
 > **Warning.** This tool changes the network rules of the **entire machine**.
 > Once it is on, no traffic leaves outside the tunnel — apart from the local
 > network. If something goes wrong you are left without internet until you fix
@@ -178,6 +182,21 @@ sudo steganon autostart on
 ```
 
 ## Usage
+
+`steganon status` answers the only question that matters, in six parts — a
+tunnel existing is not the same as being covered by it:
+
+![steganon status, showing all six checks passing](docs/status.png)
+
+**Firewall** — the rules are in force, so a drop closes the network rather than
+opening it. **Tunnel** — the interface exists. **Control** — *this* tool built
+it, not something else on the machine. **Routing** — traffic really goes
+through it. **Connectivity** — the far end answers, and how fast.
+**Identity** — the address the world sees is not yours.
+
+The `Blocked:` line counts packets the firewall actually stopped. Those are
+programs that tried to leave outside the tunnel — most of them in the first
+seconds after boot, before any VPN could have connected.
 
 | Command | What it does |
 |---|---|
