@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (
 )
 
 from . import firewall, monitor, prefs, tunnel
-from .config import Settings, pretty
+from .config import Settings, autostart_active, pretty
 from .i18n import LANGUAGES, _, detect, get_language, set_language
 
 FIT_LOCATIONS = 10
@@ -330,7 +330,7 @@ class Window(QWidget):
             _("The provider's tunnel carries IPv4 only; without blocking, IPv6 traffic bypasses it."), "groupHint"))
 
         self.autostart = QCheckBox(_("Connect at startup"))
-        self.autostart.setChecked(self.settings.autostart)
+        self.autostart.setChecked(autostart_active())
         self.autostart.toggled.connect(self._on_autostart)
         layout.addWidget(self.autostart)
         layout.addWidget(self._label(
@@ -419,6 +419,11 @@ class Window(QWidget):
     def _on_option(self, field: str, value: bool) -> None:
         setattr(self.settings, field, value)
         self._save_order()
+        # A setting that shapes the rules has to reach the rules. Saved but
+        # not applied, the switch would report protection that is not there.
+        if firewall.is_active():
+            _run_privileged("firewall", "reapply")
+            self.refresh()
 
     def _on_autostart(self, value: bool) -> None:
         from .backends import windows_service as service

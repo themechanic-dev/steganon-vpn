@@ -109,6 +109,23 @@ def readable(path: Path) -> None:
         pass
 
 
+def autostart_active() -> bool:
+    """Whether protection really does start at boot.
+
+    Asks the system, not the settings file. The settings carry the user's
+    intent and default to true; the services are what actually decide. Showing
+    the intent as though it were the state told the user they were covered
+    after a reboot when nothing had been enabled — the exact kind of lie a
+    security tool must never tell, and in the reassuring direction, which is
+    the worse one.
+    """
+    from . import backends
+    try:
+        return backends.service().autostart_enabled()
+    except Exception:
+        return False
+
+
 def pretty(name: str) -> str:
     """A location name tidied for display.
 

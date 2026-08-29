@@ -287,11 +287,16 @@ def cmd_latency(settings: Settings, args) -> int:
 
 def cmd_firewall(settings: Settings, args) -> int:
     need_root()
-    if args.action == "boot":
+    if args.action in ("boot", "reapply"):
         # Runs before the network comes up. It uses the cached addresses:
         # name resolution would fail here, and without an exception for the
         # servers the firewall would block the very connection about to be
         # established.
+        # "reapply" is the same operation under a name that says what it is
+        # for: rebuilding the rules after a setting changed, while the
+        # protection is already up. Without it, turning IPv6 blocking on would
+        # be recorded in the settings and shown as on, while the running rules
+        # still let IPv6 out.
         ips = firewall.cached_servers()
         firewall.apply(settings, ips)
         if ips:
@@ -506,7 +511,8 @@ def build_parser() -> argparse.ArgumentParser:
     i.add_argument("path", type=Path, metavar="PATH")
 
     f = sub.add_parser("firewall", help="firewall control")
-    f.add_argument("action", choices=["boot", "show", "confirm", "rollback", "off"])
+    f.add_argument("action",
+                   choices=["boot", "reapply", "show", "confirm", "rollback", "off"])
 
     return p
 

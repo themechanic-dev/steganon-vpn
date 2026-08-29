@@ -21,7 +21,7 @@ from gi.repository import Adw, Gdk, GLib, Gtk, Gio, Pango  # noqa: E402
 from . import firewall, monitor, tunnel  # noqa: E402
 from . import prefs  # noqa: E402
 from .tray import TrayIcon  # noqa: E402
-from .config import Settings  # noqa: E402
+from .config import Settings, autostart_active  # noqa: E402
 from .i18n import LANGUAGES, _, detect, get_language, set_language  # noqa: E402
 
 APP_ID = "org.homelab.Steganon"
@@ -380,7 +380,7 @@ class Window(Adw.ApplicationWindow):
         self.autostart_row = Adw.SwitchRow(
             title=_("Connect at startup"),
             subtitle=_("The firewall loads before the network on every boot, and the icon appears in the tray."),
-            active=self.settings.autostart,
+            active=autostart_active(),
         )
         self.autostart_row.connect("notify::active", self._on_autostart)
         group.add(self.autostart_row)
@@ -641,6 +641,11 @@ class Window(Adw.ApplicationWindow):
     def _on_option(self, row: Adw.SwitchRow, _p, field: str) -> None:
         setattr(self.settings, field, row.get_active())
         self._save_order()
+        # A setting that shapes the rules has to reach the rules. Saved but
+        # not applied, the switch would report protection that is not there.
+        if firewall.is_active():
+            _run_privileged("firewall", "reapply")
+            self.refresh()
 
     def _save_order(self) -> None:
         order = [loc.name for loc in self.settings.locations]
