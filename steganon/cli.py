@@ -527,7 +527,14 @@ def _prepare_console() -> None:
     """
     for stream in (sys.stdout, sys.stderr):
         try:
-            stream.reconfigure(encoding="utf-8", errors="replace")
+            # line_buffering matters for the supervisor. Python buffers output
+            # in blocks when it is not writing to a terminal, and the service
+            # writes to the journal — so every "failure 2/3" and every
+            # location switch sat in memory instead of being recorded, and a
+            # failover left no trace at all. Line buffering costs nothing at
+            # this volume and makes the log honest.
+            stream.reconfigure(encoding="utf-8", errors="replace",
+                               line_buffering=True)
         except (AttributeError, ValueError):
             pass
 

@@ -6,6 +6,9 @@ Requires=steganon-firewall.service
 
 [Service]
 Type=simple
+# Belt and braces with the line buffering in _prepare_console: without
+# unbuffered output the supervisor's log reaches the journal only in blocks.
+Environment=PYTHONUNBUFFERED=1
 # Connecting may need attempts at several locations before it succeeds. The
 # default 90 second limit is not enough, and the failure shows up as an
 # endless restart loop.
