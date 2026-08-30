@@ -22,7 +22,8 @@ rm -f  /usr/local/bin/steganon /usr/local/bin/steganon-gui
 rm -rf /usr/local/lib/steganon
 rm -f  /etc/systemd/system/steganon.service /etc/systemd/system/steganon-firewall.service
 rm -f  /usr/share/polkit-1/actions/org.homelab.Steganon.policy
-rm -f  /usr/share/applications/steganon.desktop
+rm -f  /usr/share/applications/org.homelab.Steganon.desktop \
+       /usr/share/applications/steganon.desktop
 rm -f  /usr/share/icons/hicolor/scalable/apps/steganon.svg
 rm -f  /usr/share/icons/hicolor/symbolic/apps/steganon-*-symbolic.svg \
        /usr/share/icons/hicolor/symbolic/apps/steganon-symbolic.svg

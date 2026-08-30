@@ -750,6 +750,11 @@ class Window(Adw.ApplicationWindow):
 class Application(Adw.Application):
     def __init__(self) -> None:
         super().__init__(application_id=APP_ID, flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
+        # The desktop matches a window to its icon through the application id,
+        # which is why the .desktop file is named after it. This is the belt
+        # to that braces: it names the icon directly, so a mismatch elsewhere
+        # cannot leave the window wearing a generic cog.
+        Gtk.Window.set_default_icon_name("steganon")
 
     def do_activate(self) -> None:
         hidden = "--hidden" in sys.argv

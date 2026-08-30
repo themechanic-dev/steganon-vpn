@@ -352,6 +352,11 @@ class Window(QWidget):
     # ── tray icon ─────────────────────────────────────────────────────────
 
     def _build_tray(self) -> None:
+        # The window's own icon, distinct from the tray one: the tray icon
+        # changes colour with the state, while the window should look the same
+        # whatever is happening.
+        self.setWindowIcon(_tray_pixmap("on"))
+
         self.tray = QSystemTrayIcon(_tray_pixmap("off"), self)
         menu = QMenu()
 

@@ -44,7 +44,10 @@ chmod 755 "$PREFIX/bin/steganon-gui"
 echo "▸ Services and permissions"
 install -m 644 "$HERE/systemd/"*.service /etc/systemd/system/
 install -m 644 "$HERE/data/org.homelab.Steganon.policy" /usr/share/polkit-1/actions/
-install -m 644 "$HERE/data/steganon.desktop" /usr/share/applications/
+# The file has to be named after the application id, or the desktop cannot
+# match the running window to its icon and falls back to a generic one.
+rm -f /usr/share/applications/steganon.desktop
+install -m 644 "$HERE/data/org.homelab.Steganon.desktop" /usr/share/applications/
 
 install -d /usr/share/icons/hicolor/scalable/apps
 install -d /usr/share/icons/hicolor/symbolic/apps
